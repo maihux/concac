@@ -1,8 +1,8 @@
--- Tải thư viện UI
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 local Window = OrionLib:MakeWindow({Name = "Blox Fruits - Auto Farm (Song Đao, Bounty, Rương)", HidePremium = false, SaveConfig = true, ConfigFolder = "AutoFarmBloxFruits"})
 
--- Biến trạng thái
+-- trạng thái
 local autoFarm = false
 local autoBounty = false
 local autoChest = false
@@ -10,7 +10,7 @@ local flySpeed = 200 -- Tốc độ bay
 local attackSpeed = 0.1 -- Tốc độ tấn công
 local godMode = false
 
--- Tab chính
+-- tổng
 local FarmTab = Window:MakeTab({
     Name = "Auto Farm Song Đao",
     Icon = "rbxassetid://4483345998",
@@ -29,7 +29,7 @@ local ChestTab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Hàm Bay
+-- bay
 function flyTo(destination)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -53,7 +53,7 @@ function enableGodMode()
     character.Humanoid.Health = math.huge -- Tăng máu vô hạn
 end
 
--- Auto Farm Song Đao
+-- Auto song đao
 FarmTab:AddToggle({
     Name = "Auto Farm Song Đao",
     Default = false,
@@ -62,7 +62,7 @@ FarmTab:AddToggle({
         while autoFarm do
             wait(1)
 
-            -- 1. Tìm NPC Nhiệm Vụ
+            -- 1. NPC 
             local player = game.Players.LocalPlayer
             local character = player.Character or player.CharacterAdded:Wait()
             local questNPC = workspace:FindFirstChild("QuestGiverNPCName") -- Thay bằng tên NPC nhận nhiệm vụ
@@ -72,7 +72,7 @@ FarmTab:AddToggle({
                 fireproximityprompt(questNPC.ProximityPrompt) -- Nhận nhiệm vụ
             end
 
-            -- 2. Tìm Quái để Farm
+            -- 2.  Farm quái
             for _, mob in pairs(workspace.Enemies:GetChildren()) do
                 if mob:FindFirstChild("Humanoid") and mob.Humanoid.Health > 0 then
                     flyTo(mob.HumanoidRootPart) -- Bay đến quái
@@ -86,7 +86,7 @@ FarmTab:AddToggle({
                 end
             end
 
-            -- 3. Kiểm tra hoàn thành nhiệm vụ
+            -- 3. Ktra nhiệm vụ
             if player.PlayerGui.Quest.Status.Text == "Completed" then
                 print("Nhiệm vụ hoàn thành, nhận nhiệm vụ tiếp theo!")
             end
@@ -94,7 +94,7 @@ FarmTab:AddToggle({
     end
 })
 
--- Auto Farm Bounty
+-- Auto bounty
 BountyTab:AddToggle({
     Name = "Auto Farm Bounty",
     Default = false,
@@ -104,7 +104,7 @@ BountyTab:AddToggle({
         while autoBounty do
             wait(attackSpeed)
 
-            -- 1. Tìm Người Chơi Khác
+            -- 1. Tìm ng chs
             for _, otherPlayer in pairs(game.Players:GetChildren()) do
                 if otherPlayer ~= game.Players.LocalPlayer and otherPlayer.Team ~= game.Players.LocalPlayer.Team then
                     local player = game.Players.LocalPlayer
@@ -121,7 +121,7 @@ BountyTab:AddToggle({
     end
 })
 
--- Auto Teleport Rương
+-- Auto farm rương cc
 ChestTab:AddToggle({
     Name = "Auto Teleport Rương",
     Default = false,
@@ -141,7 +141,7 @@ ChestTab:AddToggle({
     end
 })
 
--- Slider Tốc độ Bay
+-- tốc độ fly
 ChestTab:AddSlider({
     Name = "Tốc độ bay",
     Min = 50,
@@ -155,5 +155,5 @@ ChestTab:AddSlider({
     end
 })
 
--- Hiển thị giao diện
+-- Hthi giao diện
 OrionLib:Init()
